@@ -1,10 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
   entry: {
@@ -13,9 +10,10 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'js/[name].[contenthash].js',
-    publicPath: '/',
     assetModuleFilename: 'assets/static/[hash][ext][query]'
   },
+  mode: 'development',
+  devtool: 'source-map',
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {
@@ -25,14 +23,13 @@ module.exports = {
       '@images': path.resolve(__dirname, 'src/assets/static/'),
     }
   },
-  mode: 'production',
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
+          loader: 'babel-loader'
         }
       },
       {
@@ -79,13 +76,12 @@ module.exports = {
       filename: 'assets/[name].[contenthash].css'
     }),
     new Dotenv(),
-    new CleanWebpackPlugin(),
   ],
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new CssMinimizerPlugin(),
-      new TerserPlugin(),
-    ]
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    historyApiFallback: true,
+    port: 3001,
+    open: true,
   }
 }

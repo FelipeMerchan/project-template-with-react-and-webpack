@@ -1,6 +1,7 @@
 import React from 'react'
 
-import '../assets/styles/pages/Home.scss'
+import { About } from '@components/About'
+import '@styles/pages/Home.scss'
 
 export const Home = () => {
   return (
@@ -8,7 +9,7 @@ export const Home = () => {
       <main className="Home">
         <div className="wrapper">
           <div className="Home-content">
-            
+            <About />
           </div>
         </div>
       </main>
